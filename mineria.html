@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infografía de Minería Espacial: Objetivos Clave</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #000814;
+            --secondary-color: #001233;
+            --accent-color: #0466c8;
+            --accent-hover: #0353a4;
+            --metallic-light: #5390d9;
+            --metallic-dark: #124fbf;
+            --text-color: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --border-radius: 12px;
+            --glass-background: rgba(0, 18, 51, 0.65);
+            --glass-border: rgba(83, 144, 217, 0.15);
+            --glass-shine: rgba(255, 255, 255, 0.05);
+            --shadow-color: rgba(4, 102, 200, 0.2);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .navbar {
+            background: linear-gradient(to right, var(--secondary-color), var(--metallic-dark));
+            border: 1px solid var(--glass-border);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 1rem;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 20px var(--shadow-color);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo img {
+            width: 40px;
+            height: 40px;
+        }
+
+        .navbar .logo h1 {
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius);
+            transition: background-color 0.3s;
+        }
+
+        .nav-links a.active,
+        .nav-links a:hover {
+            background-color: var(--accent-color);
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 320px;
+            max-height: 400px;
+        }
+
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-[#0D0D2B] text-white">
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-globe-americas"></i>
+            <h2 id="title">Proyecto Armageddon</h2>
+        </div>
+        <div class="nav-links">
+            <a href="index.html" class="active">Home</a>
+            <a href="scenarios.html">Scenarios & Defense</a>
+            <a href="mineria.html">Mineria</a>
+            <a href="#">Eduacion</a>
+        </div>
+    </nav>
+    <div class="container mx-auto px-4 py-8 md:py-12">
+
+        <header class="text-center mb-12 md:mb-16">
+            <h1 class="text-4xl md:text-6xl font-bold text-[#4D4DFF] mb-4">Minería Espacial</h1>
+            <p class="text-lg md:text-xl max-w-3xl mx-auto text-gray-300">Análisis de asteroides cercanos a la Tierra
+                para la extracción de recursos vitales. Identificamos los objetivos más prometedores para futuras
+                misiones de recolección de agua, combustible y metales.</p>
+        </header>
+
+        <main class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+            <div class="lg:col-span-3 bg-[#124fbf] rounded-xl shadow-2xl p-6 md:p-8">
+                <h2 class="text-2xl font-bold text-center mb-6 text-[#F5A623]">1. Explorador de Asteroides</h2>
+                <div class="max-w-md mx-auto">
+                    <label for="asteroid-select" class="block mb-2 text-sm font-medium text-gray-300">Selecciona un
+                        asteroide para ver sus métricas:</label>
+                    <select id="asteroid-select"
+                        class="bg-[#0D0D2B] border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                        <option selected>Elige un objetivo...</option>
+                    </select>
+                </div>
+                <div id="asteroid-details"
+                    class="mt-8 text-left max-w-xl mx-auto p-6 bg-[#0D0D2B] rounded-lg min-h-[150px] flex items-center justify-center">
+                    <p class="text-gray-500">Selecciona un asteroide de la lista para comenzar.</p>
+                </div>
+            </div>
+
+            <div id="comparison-container" class="lg:col-span-3 bg-[#124fbf] rounded-xl shadow-2xl p-6 md:p-8"
+                style="display: none;">
+                <h2 class="text-2xl font-bold mb-4 text-center">2. Análisis Comparativo</h2>
+                <p class="text-gray-400 mb-6 text-center max-w-2xl mx-auto">El gráfico de radar compara el potencial del
+                    asteroide seleccionado (azul) frente al máximo potencial teórico (naranja) en diferentes categorías
+                    de recursos.</p>
+                <div class="chart-container h-80 md:h-96">
+                    <canvas id="comparisonChart"></canvas>
+                </div>
+            </div>
+
+            <div class="lg:col-span-3 bg-[#124fbf] rounded-xl shadow-2xl p-6 md:p-8">
+                <h2 class="text-2xl font-bold text-center mb-6 text-[#F5A623]">Clasificación de Recursos por Tipo de
+                    Asteroide</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                    <div class="bg-[#0D0D2B] p-6 rounded-lg">
+                        <p class="text-6xl mb-2">💧</p>
+                        <h3 class="text-xl font-semibold text-cyan-400 mb-2">Tipo C: Carbonáceos</h3>
+                        <p class="text-gray-400">Ricos en carbono, agua y compuestos orgánicos. Son los principales
+                            objetivos para obtener agua y producir combustible para cohetes.</p>
+                    </div>
+                    <div class="bg-[#0D0D2B] p-6 rounded-lg">
+                        <p class="text-6xl mb-2">🔩</p>
+                        <h3 class="text-xl font-semibold text-orange-400 mb-2">Tipo S: Silicáceos</h3>
+                        <p class="text-gray-400">Compuestos por silicatos de hierro y magnesio. Ideales para la minería
+                            de metales como hierro, níquel y cobalto para la construcción en el espacio.</p>
+                    </div>
+                    <div class="bg-[#0D0D2B] p-6 rounded-lg">
+                        <p class="text-6xl mb-2">🧊</p>
+                        <h3 class="text-xl font-semibold text-blue-400 mb-2">Tipo D: Primitivos</h3>
+                        <p class="text-gray-400">Ricos en silicatos orgánicos, carbono y potencialmente hielo de agua.
+                            Excelentes candidatos para la extracción de volátiles para combustible.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-2 bg-[#124fbf] rounded-xl shadow-2xl p-6 md:p-8">
+                <h2 class="text-2xl font-bold mb-4 text-center">Panorama de Candidatos: Agua y Combustible</h2>
+                <p class="text-gray-400 mb-6 text-center max-w-2xl mx-auto">Estos asteroides de tipo C y D son los más
+                    prometedores para establecer operaciones de reabastecimiento. El asteroide seleccionado se resalta
+                    en naranja.</p>
+                <div class="chart-container h-80 md:h-96">
+                    <canvas id="waterFuelChart"></canvas>
+                </div>
+            </div>
+
+            <div class="bg-[#124fbf] rounded-xl shadow-2xl p-6 md:p-8 flex flex-col justify-center">
+                <h2 class="text-2xl font-bold mb-4 text-center">Proporción General del Potencial</h2>
+                <p class="text-gray-400 mb-6 text-center">De los 20 asteroides analizados, una cuarta parte muestra un
+                    potencial medio o alto, convirtiéndolos en objetivos prioritarios.</p>
+                <div class="chart-container h-64 md:h-80">
+                    <canvas id="potentialDonutChart"></canvas>
+                </div>
+            </div>
+
+            <div
+                class="lg:col-span-3 bg-[#124fbf] rounded-xl shadow-2xl p-6 md:p-8 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div>
+                    <h2 class="text-2xl font-bold mb-4 text-center md:text-left">Panorama de Candidatos: Metales</h2>
+                    <p class="text-gray-400 mb-6 text-center md:text-left">Los asteroides de tipo S son ricos en
+                        metales. Su alta densidad sugiere concentraciones valiosas. El asteroide seleccionado se resalta
+                        en azul.</p>
+                </div>
+                <div class="chart-container h-64 md:h-72">
+                    <canvas id="metalsChart"></canvas>
+                </div>
+            </div>
+
+            <div class="lg:col-span-3 bg-[#124fbf] rounded-xl shadow-2xl p-6 md:p-8">
+                <h2 class="text-2xl font-bold text-center mb-6 text-[#F5A623]">Proceso de Selección de Objetivos</h2>
+                <div class="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-4">
+                    <div class="text-center p-4 bg-[#0D0D2B] rounded-lg">
+                        <p class="text-lg font-semibold">1. Identificar</p>
+                        <p class="text-gray-400">Listar asteroides cercanos</p>
+                    </div>
+                    <div class="text-4xl text-[#4D4DFF] font-mono transform md:-rotate-0 rotate-90">&rarr;</div>
+                    <div class="text-center p-4 bg-[#0D0D2B] rounded-lg">
+                        <p class="text-lg font-semibold">2. Analizar</p>
+                        <p class="text-gray-400">Evaluar clasificación espectral</p>
+                    </div>
+                    <div class="text-4xl text-[#4D4DFF] font-mono transform md:-rotate-0 rotate-90">&rarr;</div>
+                    <div class="text-center p-4 bg-[#0D0D2B] rounded-lg">
+                        <p class="text-lg font-semibold">3. Determinar</p>
+                        <p class="text-gray-400">Calcular potencial de recursos</p>
+                    </div>
+                    <div class="text-4xl text-[#4D4DFF] font-mono transform md:-rotate-0 rotate-90">&rarr;</div>
+                    <div class="text-center p-4 bg-[#0D0D2B] rounded-lg">
+                        <p class="text-lg font-semibold">4. Priorizar</p>
+                        <p class="text-gray-400">Seleccionar objetivos de misión</p>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            let waterFuelChart, metalsChart, potentialDonutChart, comparisonChart;
+
+            const asteroidData = [
+                { name: '1580 Betulia', type: 'Tipo C', potential: 'Agua y Combustible', rating: 'Muy Alto', ratingWater: 4, ratingMetals: 0, description: 'Composición carbonácea ideal para extraer agua y producir combustible de cohetes.' },
+                { name: '1916 Boreas', type: 'Tipo D', potential: 'Agua y Combustible', rating: 'Alto', ratingWater: 3, ratingMetals: 0, description: 'Rico en compuestos orgánicos y posible hielo de agua, excelente para volátiles.' },
+                { name: '433 Eros', type: 'Tipo S', potential: 'Metales', rating: 'Muy Alto', ratingWater: 0, ratingMetals: 4, description: 'Bien estudiado, rico en silicatos y metales como hierro y magnesio.' },
+                { name: '1566 Icarus', type: 'Tipo S', potential: 'Metales', rating: 'Alto', ratingWater: 0, ratingMetals: 3, description: 'Su alta densidad sugiere una valiosa concentración de metales pesados.' },
+                { name: '1221 Amor', type: 'Tipo S/C', potential: 'Agua y Combustible', rating: 'Medio', ratingWater: 2, ratingMetals: 1, description: 'Podría contener más volátiles de lo esperado para un asteroide tipo S.' },
+                { name: '1036 Ganymed', type: 'Tipo S', potential: 'Metales', rating: 'Medio', ratingWater: 0, ratingMetals: 2, description: 'El asteroide cercano a la Tierra más grande, con potencial para metales.' },
+                { name: '719 Albert', type: 'Tipo S', potential: 'N/A', rating: 'Bajo', ratingWater: 0, ratingMetals: 1, description: 'Potencial de recursos actualmente considerado bajo.' },
+                { name: '887 Alinda', type: 'Tipo S', potential: 'N/A', rating: 'Bajo', ratingWater: 0, ratingMetals: 1, description: 'Potencial de recursos actualmente considerado bajo.' },
+                { name: '1620 Geographos', type: 'Tipo S', potential: 'N/A', rating: 'Bajo', ratingWater: 0, ratingMetals: 1, description: 'Potencial de recursos actualmente considerado bajo.' },
+                { name: '1627 Ivar', type: 'Tipo S', potential: 'N/A', rating: 'Bajo', ratingWater: 0, ratingMetals: 1, description: 'Potencial de recursos actualmente considerado bajo.' },
+                { name: '1685 Toro', type: 'Tipo S', potential: 'N/A', rating: 'Bajo', ratingWater: 0, ratingMetals: 1, description: 'Potencial de recursos actualmente considerado bajo.' },
+                { name: '1862 Apollo', type: 'Tipo Q', potential: 'N/A', rating: 'Bajo', ratingWater: 0, ratingMetals: 1, description: 'Potencial de recursos actualmente considerado bajo.' },
+                { name: '1863 Antinous', type: 'Tipo S', potential: 'N/A', rating: 'Bajo', ratingWater: 0, ratingMetals: 1, description: 'Potencial de recursos actualmente considerado bajo.' },
+                { name: '1864 Daedalus', type: 'Tipo S', potential: 'N/A', rating: 'Bajo', ratingWater: 0, ratingMetals: 1, description: 'Potencial de recursos actualmente considerado bajo.' },
+                { name: '1865 Cerberus', type: 'Tipo S', potential: 'N/A', rating: 'Bajo', ratingWater: 0, ratingMetals: 1, description: 'Potencial de recursos actualmente considerado bajo.' },
+                { name: '1866 Sisyphus', type: 'Tipo S', potential: 'N/A', rating: 'Bajo', ratingWater: 0, ratingMetals: 1, description: 'Potencial de recursos actualmente considerado bajo.' },
+                { name: '1915 Quetzalcoatl', type: 'Tipo S', potential: 'N/A', rating: 'Bajo', ratingWater: 0, ratingMetals: 1, description: 'Potencial de recursos actualmente considerado bajo.' },
+                { name: '1917 Cuyo', type: 'Tipo S', potential: 'N/A', rating: 'Bajo', ratingWater: 0, ratingMetals: 1, description: 'Potencial de recursos actualmente considerado bajo.' },
+                { name: '1943 Anteros', type: 'Tipo S', potential: 'N/A', rating: 'Bajo', ratingWater: 0, ratingMetals: 1, description: 'Potencial de recursos actualmente considerado bajo.' },
+                { name: '1980 Tezcatlipoca', type: 'Tipo S', potential: 'N/A', rating: 'Bajo', ratingWater: 0, ratingMetals: 1, description: 'Potencial de recursos actualmente considerado bajo.' }
+            ];
+
+            const selectElement = document.getElementById('asteroid-select');
+            const detailsElement = document.getElementById('asteroid-details');
+
+            asteroidData.forEach(asteroid => {
+                const option = document.createElement('option');
+                option.value = asteroid.name;
+                option.textContent = asteroid.name;
+                selectElement.appendChild(option);
+            });
+
+            selectElement.addEventListener('change', (event) => {
+                const selectedName = event.target.value;
+                const asteroid = asteroidData.find(a => a.name === selectedName);
+
+                if (asteroid) {
+                    let ratingColor = 'text-gray-400';
+                    if (asteroid.rating === 'Muy Alto') ratingColor = 'text-green-400';
+                    if (asteroid.rating === 'Alto') ratingColor = 'text-yellow-400';
+                    if (asteroid.rating === 'Medio') ratingColor = 'text-orange-400';
+                    if (asteroid.rating === 'Bajo') ratingColor = 'text-red-400';
+
+                    detailsElement.innerHTML = `
+                        <div>
+                            <h3 class="text-2xl font-bold text-white mb-2">${asteroid.name}</h3>
+                            <p class="mb-1"><strong class="font-semibold text-gray-300">Clasificación:</strong> <span class="text-cyan-300">${asteroid.type}</span></p>
+                            <p class="mb-1"><strong class="font-semibold text-gray-300">Recurso Principal:</strong> <span class="text-cyan-300">${asteroid.potential}</span></p>
+                            <p class="mb-3"><strong class="font-semibold text-gray-300">Nivel de Potencial:</strong> <span class="font-bold ${ratingColor}">${asteroid.rating}</span></p>
+                            <p class="text-gray-400">${asteroid.description}</p>
+                        </div>`;
+                    updateComparisonChart(asteroid);
+                    highlightInOverviewCharts(asteroid.name);
+                } else {
+                    detailsElement.innerHTML = `<p class="text-gray-500">Selecciona un asteroide de la lista para comenzar.</p>`;
+                    document.getElementById('comparison-container').style.display = 'none';
+                    if (comparisonChart) comparisonChart.destroy();
+                    highlightInOverviewCharts(null);
+                }
+            });
+
+            const tooltipTitleCallback = (tooltipItems) => {
+                const item = tooltipItems[0];
+                let label = item.chart.data.labels[item.dataIndex];
+                if (Array.isArray(label)) return label.join(' ');
+                return label;
+            };
+
+            const universalOptions = {
+                maintainAspectRatio: false,
+                responsive: true,
+                plugins: {
+                    legend: { labels: { color: '#FFFFFF', font: { size: 14 } } },
+                    tooltip: { callbacks: { title: tooltipTitleCallback }, bodyFont: { size: 14 }, titleFont: { size: 16 } }
+                },
+                scales: {
+                    x: { ticks: { color: '#9CA3AF', font: { size: 12 } }, grid: { color: 'rgba(255, 255, 255, 0.1)' } },
+                    y: { ticks: { color: '#9CA3AF', font: { size: 12 } }, grid: { color: 'rgba(255, 255, 255, 0.1)' } }
+                }
+            };
+
+            const waterFuelCtx = document.getElementById('waterFuelChart').getContext('2d');
+            waterFuelChart = new Chart(waterFuelCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['1580 Betulia', '1916 Boreas', '1221 Amor'],
+                    datasets: [{
+                        label: 'Nivel de Potencial (Agua/Combustible)',
+                        data: [4, 3, 2],
+                        backgroundColor: ['#4D4DFF', '#3B3B98', '#2A2A65'],
+                        borderColor: '#4D4DFF',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    ...universalOptions, indexAxis: 'y',
+                    scales: {
+                        x: {
+                            ticks: {
+                                color: '#9CA3AF', font: { size: 12 },
+                                callback: value => ['N/A', 'Bajo', 'Medio', 'Alto', 'Muy Alto'][value] || ''
+                            },
+                            grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                        },
+                        y: { ticks: { color: '#FFFFFF', font: { size: 14 } }, grid: { color: 'rgba(255, 255, 255, 0.1)' } }
+                    }
+                }
+            });
+
+            const metalsCtx = document.getElementById('metalsChart').getContext('2d');
+            metalsChart = new Chart(metalsCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['433 Eros', '1566 Icarus', '1036 Ganymed'],
+                    datasets: [{
+                        label: 'Nivel de Potencial (Metales)',
+                        data: [4, 3, 2],
+                        backgroundColor: ['#F5A623', '#D97706', '#B45309'],
+                        borderColor: '#F5A623',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    ...universalOptions,
+                    scales: {
+                        x: { ticks: { color: '#FFFFFF', font: { size: 14 } }, grid: { color: 'rgba(255, 255, 255, 0.1)' } },
+                        y: {
+                            ticks: {
+                                color: '#9CA3AF', font: { size: 12 },
+                                callback: value => ['N/A', 'Bajo', 'Medio', 'Alto', 'Muy Alto'][value] || ''
+                            },
+                            grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                        }
+                    }
+                }
+            });
+
+            const potentialDonutCtx = document.getElementById('potentialDonutChart').getContext('2d');
+            potentialDonutChart = new Chart(potentialDonutCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Potencial Bajo', 'Potencial Medio-Alto'],
+                    datasets: [{
+                        label: 'Proporción de Asteroides', data: [14, 6],
+                        backgroundColor: ['#1A1A3D', '#4D4DFF'], borderColor: ['#3B3B98', '#FFFFFF'], borderWidth: 2, hoverOffset: 4
+                    }]
+                },
+                options: { ...universalOptions, scales: { x: { display: false }, y: { display: false } } }
+            });
+
+            function highlightInOverviewCharts(selectedName) {
+                const waterLabels = waterFuelChart.data.labels;
+                const defaultWaterColors = ['#4D4DFF', '#3B3B98', '#2A2A65'];
+                waterFuelChart.data.datasets[0].backgroundColor = waterLabels.map((label, index) => label === selectedName ? '#F5A623' : defaultWaterColors[index]);
+                waterFuelChart.update();
+
+                const metalLabels = metalsChart.data.labels;
+                const defaultMetalColors = ['#F5A623', '#D97706', '#B45309'];
+                metalsChart.data.datasets[0].backgroundColor = metalLabels.map((label, index) => label === selectedName ? '#4D4DFF' : defaultMetalColors[index]);
+                metalsChart.update();
+            }
+
+            function updateComparisonChart(asteroid) {
+                if (comparisonChart) comparisonChart.destroy();
+
+                const container = document.getElementById('comparison-container');
+                if (!asteroid) {
+                    container.style.display = 'none';
+                    return;
+                }
+                container.style.display = 'block';
+
+                const ctx = document.getElementById('comparisonChart').getContext('2d');
+                comparisonChart = new Chart(ctx, {
+                    type: 'radar',
+                    data: {
+                        labels: ['Potencial Agua/Combustible', 'Potencial Metales'],
+                        datasets: [{
+                            label: asteroid.name,
+                            data: [asteroid.ratingWater, asteroid.ratingMetals],
+                            backgroundColor: 'rgba(77, 77, 255, 0.2)', borderColor: '#4D4DFF', pointBackgroundColor: '#4D4DFF',
+                            pointBorderColor: '#fff', pointHoverBackgroundColor: '#fff', pointHoverBorderColor: '#4D4DFF'
+                        }, {
+                            label: 'Máximo Potencial',
+                            data: [4, 4],
+                            backgroundColor: 'rgba(245, 166, 35, 0.2)', borderColor: '#F5A623', pointBackgroundColor: '#F5A623',
+                            pointBorderColor: '#fff', pointHoverBackgroundColor: '#fff', pointHoverBorderColor: '#F5A623'
+                        }]
+                    },
+                    options: {
+                        ...universalOptions, scales: {
+                            r: {
+                                angleLines: { color: 'rgba(255, 255, 255, 0.2)' }, grid: { color: 'rgba(255, 255, 255, 0.2)' },
+                                pointLabels: { color: '#FFFFFF', font: { size: 14 } },
+                                ticks: {
+                                    color: 'rgba(255, 255, 255, 0.8)',
+                                    backdropColor: 'rgba(0, 0, 0, 0.2)',
+                                    stepSize: 1,
+                                    callback: value => ['N/A', 'Bajo', 'Medio', 'Alto', 'Muy Alto'][value] || ''
+                                },
+                                min: 0, max: 4
+                            }
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>

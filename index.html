@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asteroid Impact Simulator</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-globe-americas"></i>
+            <h2 id="title">Proyecto Armageddon</h2>
+        </div>
+        <div class="nav-links">
+            <a href="index.html" class="active">Home</a>
+            <a href="scenarios.html">Scenarios & Defense</a>
+            <a href="mineria.html">Mineria</a>
+            <a href="#">Eduacion</a>
+        </div>
+    </nav>
+    <section class="notas">
+        <div class="datos">
+            <p>Asteroid Simulator - Proyect Armageddon </p>
+        </div>
+    </section>
+    <main class="simulator-container">
+        <section class="parameters-section">
+            <h2>Parameters</h2>
+            <!--Seleccion de Asteroides-->
+            <div class="parameter-group">
+                <label for="asteroid-select">select asteroids</label>
+                <select id="asteroid-select">
+                    <option value="">Loading asteroids...</option>
+                </select>
+
+            </div>
+            <!--Peligro Potencial-->
+            <div class="parameter-group">
+                <label for="is_potentially_hazardous_asteroid">Is it a potential danger?</label>
+                <input type="text" id="is_potentially_hazardous_asteroid" readonly>
+            </div>
+            <!--Diametro maximo y minimo-->
+            <div class="parameter-group">
+                <label for="diameter">Estimated Diameter (m)</label>
+                <ul id="asteroid-diameter">
+                </ul>
+                <input type="range" id="diameter" step="0.01">
+                <span class="parameter-value"><span>
+            </div>
+
+            <!--Semi eje mayor axis-->
+            <div class="parameter-group">
+                <label for="semi_major">Semi-major axis of the orbit (AU)</label>
+                <ul id="asteroid-semi_major">
+                </ul>
+                <input type="range" id="semi_major" step="0.01">
+                <span class="parameter-value"><span>
+
+            </div>
+            <!--Eccentricity (e)-->
+            <div class="parameter-group">
+                <label for="excentricidad">Eccentricity</label>
+                <ul id="asteroid-eccentricity"></ul>
+                <input type="range" id="excentricidad" step="0.001">
+                <span class="parameter-value"></span>
+            </div>
+            <!--Inclination (°)-->
+            <div class="parameter-group">
+                <label for="inclinacion">Orbital Inclination (°)</label>
+                <ul id="asteroid-inclination"></ul>
+                <input type="range" id="inclinacion" step="0.0001">
+                <span class="parameter-value"></span>
+            </div>
+            <!--Longitude of Asc. Node (°)-->
+            <div class="parameter-group">
+                <label for="ascending_node_longitude">Ascending longitude of the node (°)</label>
+                <ul id="asteroid-ascending-node"></ul>
+                <input type="range" id="ascending_node_longitude" step="0.1">
+                <span class="parameter-value"></span>
+            </div>
+            <!--RAAN (°)-->
+            <div class="parameter-group">
+                <label for="raan">RAAN (°)</label>
+                <ul id="asteroid-raan"></ul>
+                <input type="range" id="raan" step="0.1">
+                <span class="parameter-value"></span>
+            </div>
+
+            <!--periodo orbital-->
+            <div class="parameter-group">
+                <label for="orbital_period">Orbital Period (s)</label>
+                <ul id="periodo-orbital"></ul>
+                <input type="range" id="orbital_period" step="0.001">
+                <span class="parameter-value"></span>
+            </div>
+            <!--Movimiento medio-->
+            <div class="parameter-group">
+                <label for="mean_motion">Movement-medium</label>
+                <ul id="Movimiento-medio"></ul>
+                <input type="range" id="mean_motion" step="0.001">
+                <span class="parameter-value"></span>
+            </div>
+            <!--Tiempo de paso por el pericentro-->
+            <div class="parameter-group">
+                <label for="perihelion_time">Pericenter Time (Julian Date)</label>
+                <ul id="tiempo-perihelion"></ul>
+                <input type="range" id="perihelion_time" step="0.001">
+                <span class="parameter-value"></span>
+            </div>
+            <!--Velocidad de la animacion del metorito (velocidad de la animacion)-->
+            <div class="parameter-group">
+                <label for="velocity">Relative Speed ​​(km/s)</label>
+                <ul id="asteroid-velocity"></ul>
+                <input type="range" id="velocity" step="0.001">
+                <span class="parameter-value"></span>
+            </div>
+        </section>
+
+        <section class="visualization-section">
+            <div class="earth-container">
+
+                <div class="orbit">
+                    <div class="container">
+
+
+                        <div id="tab-3d" class="tab-content active">
+                            <div id="scene-container"></div>
+                        </div>
+
+
+
+
+                    </div>
+
+                </div>
+                <!--    
+                <div class="earth"></div>
+                -->
+            </div>
+
+        </section>
+
+
+        <section class="results-section" style="display: none;">
+            <div style="display: none;">
+                <div id="tab-transformations" class="tab-content" style="border: 2px solid rgb(36, 136, 236);">
+                    <div id="transformations-container" style="height: 600px;"></div>
+                </div>
+                <div class="result-card">
+                    <i class="fas fa-bomb result-icon"></i>
+                    <h3>kinetic energy</h3>
+                    <p><span id="energy-value">7.51e7</span> toneladas TNT</p>
+                </div>
+                <div class="result-card">
+                    <i class="fas fa-meteor result-icon"></i>
+                    <h3>Esteemed character</h3>
+                    <p><span id="crater-value">730.45</span> km de diámetro</p>
+                </div>
+                <div class="result-card">
+                    <i class="fas fa-water result-icon"></i>
+                    <h3>Possible tsunami</h3>
+                    <p><span id="tsunami-value">4.3</span> m de altura</p>
+                </div>
+                <div class="result-card">
+                    <i class="fas fa-seismic result-icon"></i>
+                    <h3>Seismic magnitude</h3>
+                    <p>M<span id="magnitude-value">5.3</span></p>
+                </div>
+                <div class="info-panel">
+                    <h3>Orbital Parameters</h3>
+                    <div class="orbit-info" id="orbit-info">
+                        <!-- Orbital info will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+
+    <script>
+
+        class OrbitSimulator {
+            constructor() {
+                this.scene = new THREE.Scene();
+                this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+                this.renderer = new THREE.WebGLRenderer({ antialias: true });
+                this.transformationsRenderer = new THREE.WebGLRenderer({ antialias: true });
+
+                // --- INICIO DE LA MODIFICACIÓN ---
+
+                // 1. Obtén una referencia al slider de velocidad.
+                this.velocityInput = document.getElementById("velocity");
+
+                // 2. Define un factor de escala base para la animación.
+                // ¡Este es el número más importante! Ajústalo según necesites
+                // para que la velocidad se vea bien en tu escena.
+                const BASE_ANIMATION_SPEED = 0.00005;
+
+                // 3. Inicializa la velocidad de la animación usando el valor actual del slider.
+                this.animationSpeed = BASE_ANIMATION_SPEED * parseFloat(this.velocityInput.value);
+
+                // 4. Agrega un "listener" para actualizar la velocidad cuando el usuario mueva el slider.
+                this.velocityInput.addEventListener('input', (event) => {
+                    // Recalcula la velocidad de la animación en tiempo real.
+                    this.animationSpeed = BASE_ANIMATION_SPEED * parseFloat(event.target.value);
+                    // Opcional: Muestra la nueva velocidad en la consola para depurar.
+                    // console.log("Nueva velocidad de animación:", this.animationSpeed);
+                });
+
+                // --- FIN DE LA MODIFICACIÓN ---
+
+                // Orbital parameters (inicializados desde inputs)
+                this.a = parseFloat(document.getElementById("semi_major").value);
+                this.e = parseFloat(document.getElementById("excentricidad").value);
+                this.inclination = (parseFloat(document.getElementById("inclinacion").value)) * Math.PI / 180;
+                this.omega = (parseFloat(document.getElementById("ascending_node_longitude").value) || 0) * Math.PI / 180;
+                this.raan = (parseFloat(document.getElementById("raan").value)) * Math.PI / 180;
+                this.T = parseFloat(document.getElementById("orbital_period").value);
+                this.n = parseFloat(document.getElementById("mean_motion").value);
+                this.tau = parseFloat(document.getElementById("perihelion_time").value);
+
+                // Animation parameters
+                this.clock = 0;
+                //this.animationSpeed = 0.0005;
+                this.frameCounter = 0; //
+                this.isAnimating = true;
+                this.showTrail = true;
+
+                // Three.js objects
+                this.orbitLine = null;
+                this.satellite = null;
+                this.centralBody = null;
+                this.trail = [];
+                this.trailLine = null;
+
+
+                this.initializeScene();
+                this.createOrbit();
+                this.setupParameterListeners(); // <<-- conectamos sliders
+                this.animate();
+
+            }
+
+
+            initializeScene() {
+                this.scene.background = new THREE.Color(0x0a0a0a);
+
+                const container = document.getElementById('scene-container');
+                this.renderer.setSize(container.clientWidth, container.clientHeight);
+                this.renderer.shadowMap.enabled = true;
+                this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+                container.appendChild(this.renderer.domElement);
+
+                // Transformations scene setup
+                this.transformationsScene = new THREE.Scene();
+                this.transformationsScene.background = new THREE.Color(0x0a0a0a);
+                this.transformationsCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+
+                const transformationsContainer = document.getElementById('transformations-container');
+                this.transformationsRenderer.setSize(transformationsContainer.clientWidth, transformationsContainer.clientHeight);
+                transformationsContainer.appendChild(this.transformationsRenderer.domElement);
+
+                // Camera position
+                this.camera.position.set(5, 3, 5);
+                this.camera.lookAt(0, 0, 0);
+                this.transformationsCamera.position.set(5, 3, 5);
+                this.transformationsCamera.lookAt(0, 0, 0);
+
+                // Lighting
+                const ambientLight = new THREE.AmbientLight(0x404040, 0.4);
+                this.scene.add(ambientLight);
+                this.transformationsScene.add(ambientLight.clone());
+
+                const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+                directionalLight.position.set(10, 10, 5);
+                directionalLight.castShadow = true;
+                this.scene.add(directionalLight);
+                this.transformationsScene.add(directionalLight.clone());
+
+                // Add coordinate axes
+                const axesHelper = new THREE.AxesHelper(2);
+                this.scene.add(axesHelper);
+                this.transformationsScene.add(axesHelper.clone());
+
+                // Mouse controls
+                this.setupMouseControls();
+            }
+            setupMouseControls() {
+                let isMouseDown = false;
+                let mouseX = 0;
+                let mouseY = 0;
+                let targetRotationX = 0;
+                let targetRotationY = 0;
+                let rotationX = 0;
+                let rotationY = 0;
+
+                const onMouseDown = (event) => {
+                    isMouseDown = true;
+                    mouseX = event.clientX;
+                    mouseY = event.clientY;
+                };
+
+                const onMouseUp = () => {
+                    isMouseDown = false;
+                };
+
+                const onMouseMove = (event) => {
+                    if (!isMouseDown) return;
+
+                    const deltaX = event.clientX - mouseX;
+                    const deltaY = event.clientY - mouseY;
+
+                    targetRotationY += deltaX * 0.01;
+                    targetRotationX += deltaY * 0.01;
+
+                    mouseX = event.clientX;
+                    mouseY = event.clientY;
+                };
+
+                const onWheel = (event) => {
+                    const scale = event.deltaY > 0 ? 1.1 : 0.9;
+                    this.camera.position.multiplyScalar(scale);
+                    this.transformationsCamera.position.multiplyScalar(scale);
+                };
+
+                this.renderer.domElement.addEventListener('mousedown', onMouseDown);
+                this.renderer.domElement.addEventListener('mouseup', onMouseUp);
+                this.renderer.domElement.addEventListener('mousemove', onMouseMove);
+                this.renderer.domElement.addEventListener('wheel', onWheel);
+
+                this.transformationsRenderer.domElement.addEventListener('mousedown', onMouseDown);
+                this.transformationsRenderer.domElement.addEventListener('mouseup', onMouseUp);
+                this.transformationsRenderer.domElement.addEventListener('mousemove', onMouseMove);
+                this.transformationsRenderer.domElement.addEventListener('wheel', onWheel);
+
+                // Smooth rotation update
+                const updateRotation = () => {
+                    rotationX += (targetRotationX - rotationX) * 0.05;
+                    rotationY += (targetRotationY - rotationY) * 0.05;
+
+                    const distance = this.camera.position.length();
+                    this.camera.position.x = distance * Math.sin(rotationY) * Math.cos(rotationX);
+                    this.camera.position.y = distance * Math.sin(rotationX);
+                    this.camera.position.z = distance * Math.cos(rotationY) * Math.cos(rotationX);
+                    this.camera.lookAt(0, 0, 0);
+
+                    const transformationsDistance = this.transformationsCamera.position.length();
+                    this.transformationsCamera.position.x = transformationsDistance * Math.sin(rotationY) * Math.cos(rotationX);
+                    this.transformationsCamera.position.y = transformationsDistance * Math.sin(rotationX);
+                    this.transformationsCamera.position.z = transformationsDistance * Math.cos(rotationY) * Math.cos(rotationX);
+                    this.transformationsCamera.lookAt(0, 0, 0);
+
+                    requestAnimationFrame(updateRotation);
+                };
+                updateRotation();
+            }
+
+            initializeControls() {
+                // Link sliders with number inputs
+                this.linkControls('semiMajor', 'semiMajorNum', (value) => {
+                    this.a = parseFloat(value);
+                    this.createOrbit();
+                    this.updateInfo();
+                });
+
+                this.linkControls('eccentricity', 'eccentricityNum', (value) => {
+                    this.e = parseFloat(value);
+                    this.createOrbit();
+                    this.updateInfo();
+                });
+
+                this.linkControls('inclination', 'inclinationNum', (value) => {
+                    this.inclination = parseFloat(value) * Math.PI / 180;
+                    this.createOrbit();
+                    this.updateInfo();
+                });
+
+                this.linkControls('omega', 'omegaNum', (value) => {
+                    this.omega = parseFloat(value) * Math.PI / 180;
+                    this.createOrbit();
+                    this.updateInfo();
+                });
+
+                this.linkControls('raan', 'raanNum', (value) => {
+                    this.raan = parseFloat(value) * Math.PI / 180;
+                    this.createOrbit();
+                    this.updateInfo();
+                });
+
+                this.linkControls('speed', 'speedNum', (value) => {
+                    this.animationSpeed = parseFloat(value);
+                });
+
+                // Button controls
+                document.getElementById('playPause').addEventListener('click', () => {
+                    this.isAnimating = !this.isAnimating;
+                    document.getElementById('playPause').textContent = this.isAnimating ? '⏸️ Pause' : '▶️ Play';
+                });
+
+                document.getElementById('reset').addEventListener('click', () => {
+                    this.clock = 0;
+                    this.trail = [];
+                    this.updateTrail();
+                });
+
+                document.getElementById('toggleTrail').addEventListener('click', () => {
+                    this.showTrail = !this.showTrail;
+                    if (this.trailLine) {
+                        this.trailLine.visible = this.showTrail;
+                    }
+                });
+
+                // Tab controls
+                document.querySelectorAll('.tab').forEach(tab => {
+                    tab.addEventListener('click', () => {
+                        const tabName = tab.dataset.tab;
+                        this.switchTab(tabName);
+                    });
+                });
+
+                this.updateInfo();
+            }
+
+            linkControls(sliderId, numberId, callback) {
+                const slider = document.getElementById(sliderId);
+                const number = document.getElementById(numberId);
+
+                slider.addEventListener('input', (e) => {
+                    number.value = e.target.value;
+                    callback(e.target.value);
+                });
+
+                number.addEventListener('input', (e) => {
+                    slider.value = e.target.value;
+                    callback(e.target.value);
+                });
+            }
+
+            switchTab(tabName) {
+                document.querySelectorAll('.tab').forEach(tab => {
+                    tab.classList.remove('active');
+                });
+                document.querySelectorAll('.tab-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+
+                document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
+                document.getElementById(`tab-${tabName}`).classList.add('active');
+
+                if (tabName === 'transformations') {
+                    this.createTransformationsView();
+                }
+            }
+
+            setupParameterListeners() {
+                const params = {
+                    a: "semi_major",
+                    e: "excentricidad",
+                    inclination: "inclinacion",
+                    omega: "ascending_node_longitude",
+                    raan: "raan",
+                    T: "orbital_period",
+                    n: "mean_motion",
+                    tau: "perihelion_time"
+                };
+
+                for (let key in params) {
+                    document.getElementById(params[key]).addEventListener("input", () => {
+                        let val = parseFloat(document.getElementById(params[key]).value);
+
+                        if (key === "inclination" || key === "omega" || key === "raan") {
+                            this[key] = val * Math.PI / 180; // grados a radianes
+                        } else {
+                            this[key] = val;
+                        }
+
+                        if (key === "T") {
+                            this.n = 2 * Math.PI / this.T;
+                        }
+
+                        this.createOrbit();
+                        this.updateInfo();
+                    });
+                }
+            }
+
+            generateEllipse() {
+                const points = [];
+                const numPoints = 80;
+
+                for (let i = 0; i < numPoints; i++) {
+                    const u = -Math.PI + (2 * Math.PI * i) / numPoints;
+                    const x = this.a * Math.cos(u) - this.e;
+                    const y = this.a * Math.sqrt(1 - this.e * this.e) * Math.sin(u);
+                    const z = 0;
+
+                    points.push(new THREE.Vector3(x, y, z));
+                }
+
+                return points;
+            }
+
+            rotate3D(point, angle, axisX, axisY, axisZ) {
+                const axis = new THREE.Vector3(axisX, axisY, axisZ).normalize();
+                const quaternion = new THREE.Quaternion().setFromAxisAngle(axis, angle);
+                return point.clone().applyQuaternion(quaternion);
+            }
+
+            createOrbit() {
+                if (this.orbitLine) this.scene.remove(this.orbitLine);
+                if (this.centralBody) this.scene.remove(this.centralBody);
+                if (this.satellite) this.scene.remove(this.satellite);
+
+                const ellipsePoints = this.generateEllipse();
+
+                const transformedPoints = ellipsePoints.map(point => {
+                    let rotated = this.rotate3D(point, this.inclination, 0, 1, 0);
+                    rotated = this.rotate3D(rotated, this.omega, 0, 0, 1);
+                    rotated = this.rotate3D(rotated, this.raan, 1, 0, 0);
+                    return rotated;
+                });
+
+                const geometry = new THREE.BufferGeometry().setFromPoints(transformedPoints);
+                const material = new THREE.LineBasicMaterial({ color: 0xff4444 });
+                this.orbitLine = new THREE.Line(geometry, material);
+                this.scene.add(this.orbitLine);
+
+                const centralGeometry = new THREE.SphereGeometry(0.2, 32, 16);
+                const centralMaterial = new THREE.MeshPhongMaterial({ color: 0x4444ff });
+                this.centralBody = new THREE.Mesh(centralGeometry, centralMaterial);
+                this.scene.add(this.centralBody);
+
+                const satelliteGeometry = new THREE.SphereGeometry(0.04, 16, 8);
+                const satelliteMaterial = new THREE.MeshPhongMaterial({ color: 0x44ff44 });
+                this.satellite = new THREE.Mesh(satelliteGeometry, satelliteMaterial);
+                this.scene.add(this.satellite);
+
+                this.trail = [];
+                this.updateTrail();
+            }
+
+            propagate(clock) {
+                const M = this.n * (clock - this.tau);
+                const E = this.keplerSolve(this.e, M);
+                const cosE = Math.cos(E);
+
+                const r = this.a * (1 - this.e * cosE);
+                const sx = r * ((cosE - this.e) / (1 - this.e * cosE));
+                const sy = r * ((Math.sqrt(1 - this.e * this.e) * Math.sin(E)) / (1 - this.e * cosE));
+                const sz = 0;
+
+                let point = new THREE.Vector3(sx, sy, sz);
+
+                point = this.rotate3D(point, this.inclination, 0, 1, 0);
+                point = this.rotate3D(point, this.omega, 0, 0, 1);
+                point = this.rotate3D(point, this.raan, 1, 0, 0);
+
+                return point;
+            }
+
+            keplerSolve(e, M) {
+                let E = M;
+                for (let i = 0; i < 10; i++) {
+                    E = M + e * Math.sin(E);
+                }
+                return E;
+            }
+
+            updateTrail() {
+                if (this.trailLine) this.scene.remove(this.trailLine);
+
+                if (this.trail.length > 1 && this.showTrail) {
+                    const geometry = new THREE.BufferGeometry().setFromPoints(this.trail);
+                    const material = new THREE.LineBasicMaterial({ color: 0xffff44, opacity: 0.6, transparent: true });
+                    this.trailLine = new THREE.Line(geometry, material);
+                    this.scene.add(this.trailLine);
+                }
+            }
+            /*
+            updateInfo() {
+                const b = this.a * Math.sqrt(1 - this.e * this.e);
+                const c = this.e * this.a;
+                const period = 2 * Math.PI / this.n;
+                const apogee = this.a * (1 + this.e);
+                const perigee = this.a * (1 - this.e);
+
+                const info = [
+                    { label: 'Semi-major axis (a)', value: this.a.toFixed(3), unit: 'units' },
+                    { label: 'Semi-minor axis (b)', value: b.toFixed(3), unit: 'units' },
+                    { label: 'Eccentricity (e)', value: this.e.toFixed(3), unit: '' },
+                    { label: 'Linear eccentricity (c)', value: c.toFixed(3), unit: 'units' },
+                    { label: 'Inclination', value: (this.inclination * 180 / Math.PI).toFixed(1), unit: '°' },
+                    { label: 'Longitude of Asc. Node (ω)', value: (this.omega * 180 / Math.PI).toFixed(1), unit: '°' },
+                    { label: 'RAAN (Ω)', value: (this.raan * 180 / Math.PI).toFixed(1), unit: '°' },
+                    { label: 'Orbital Period', value: period.toFixed(1), unit: 'seconds' },
+                    { label: 'Apogee', value: apogee.toFixed(3), unit: 'units' },
+                    { label: 'Perigee', value: perigee.toFixed(3), unit: 'units' }
+                ];
+
+                const container = document.getElementById('orbit-info');
+                if (container) {
+                    container.innerHTML = info.map(item => `
+                <div class="info-item">
+                    <div class="info-label">${item.label}</div>
+                    <div class="info-value">${item.value} ${item.unit}</div>
+                </div>
+            `).join('');
+                }
+            }
+            */
+            //actualiza con los valores de los inputs que ya se han declarado en el constructor, para que se actualize la simulacion tambn , el nombre de la funcion es updateInfo()
+
+            updateInfo() {
+                const b = this.a * Math.sqrt(1 - this.e * this.e);
+                const c = this.e * this.a;
+                const period = 2 * Math.PI / this.n;
+                const apogee = this.a * (1 + this.e);
+                const perigee = this.a * (1 - this.e);
+                const info = [
+                    { label: 'Semi-major axis (a)', value: this.a.toFixed(3), unit: 'units' },
+                    { label: 'Semi-minor axis (b)', value: b.toFixed(3), unit: 'units' },
+                    { label: 'Eccentricity (e)', value: this.e.toFixed(3), unit: '' },
+                    { label: 'Linear eccentricity (c)', value: c.toFixed(3), unit: 'units' },
+                    { label: 'Inclination', value: (this.inclination * 180 / Math.PI).toFixed(1), unit: '°' },
+                    { label: 'Longitude of Asc. Node (ω)', value: (this.omega * 180 / Math.PI).toFixed(1), unit: '°' },
+                    { label: 'RAAN (Ω)', value: (this.raan * 180 / Math.PI).toFixed(1), unit: '°' },
+                    { label: 'Orbital Period', value: period.toFixed(1), unit: 'seconds' },
+                    { label: 'Apogee', value: apogee.toFixed(3), unit: 'units' },
+                    { label: 'Perigee', value: perigee.toFixed(3), unit: 'units' }
+                ];
+                const container = document.getElementById('orbit-info');
+                if (container) {
+                    container.innerHTML = info.map(item => `
+                <div class="info-item">
+                    <div class="info-label">${item.label}</div>
+                    <div class="info-value">${item.value} ${item.unit}</div>
+                </div>
+            `).join('');
+                }
+            }
+
+            createTransformationsView() {
+                // Clear previous objects
+                while (this.transformationsScene.children.length > 0) {
+                    this.transformationsScene.remove(this.transformationsScene.children[0]);
+                }
+
+                // Add axes
+                const axesHelper = new THREE.AxesHelper(2);
+                this.transformationsScene.add(axesHelper);
+
+                // Add orbit line
+                if (this.orbitLine) {
+                    const orbitClone = this.orbitLine.clone();
+                    this.transformationsScene.add(orbitClone);
+                }
+
+                // Add central body
+                if (this.centralBody) {
+                    const centralClone = this.centralBody.clone();
+                    this.transformationsScene.add(centralClone);
+                }
+
+                // Add satellite
+                if (this.satellite) {
+                    const satelliteClone = this.satellite.clone();
+                    this.transformationsScene.add(satelliteClone);
+                }
+            }
+
+
+
+
+
+
+
+
+
+
+
+            /*animate() {
+                requestAnimationFrame(() => this.animate());
+
+                if (this.isAnimating) {
+                    this.clock += this.animationSpeed;
+
+                    const position = this.propagate(this.clock);
+                    this.satellite.position.copy(position);
+
+                    if (this.clock % 2 === 0) {
+                        this.trail.push(position.clone());
+                        if (this.trail.length > 200) this.trail.shift();
+                        this.updateTrail();
+                    }
+                }
+
+                this.renderer.render(this.scene, this.camera);
+                this.transformationsRenderer.render(this.transformationsScene, this.transformationsCamera);
+            }*/
+            animate() {
+                // Solicita el siguiente cuadro de animación
+                requestAnimationFrame(() => this.animate());
+
+                if (this.isAnimating) {
+                    // Incrementa el contador de frames en cada cuadro
+                    this.frameCounter++;
+
+                    // La velocidad de la simulación sigue controlada por el slider, ¡esto está perfecto!
+                    this.clock += this.animationSpeed;
+
+                    // Calcula y actualiza la posición del asteroide
+                    const position = this.propagate(this.clock);
+                    this.satellite.position.copy(position);
+
+                    // --- MODIFICACIÓN CLAVE PARA LA ESTELA ---
+                    // Añade un punto a la estela cada 5 frames.
+                    // Puedes cambiar el '5' a un número mayor (estela menos densa)
+                    // o menor (estela más densa).
+                    if (this.frameCounter % 2 === 0 && this.showTrail) {
+                        this.trail.push(position.clone());
+
+                        // Limita la longitud de la estela para no consumir memoria infinita
+                        if (this.trail.length > 200) {
+                            this.trail.shift(); // Elimina el punto más antiguo
+                        }
+
+                        this.updateTrail(); // Llama a tu función para redibujar la línea de la estela
+                    }
+                }
+
+                // Renderiza las escenas
+                this.renderer.render(this.scene, this.camera);
+
+                // Si usas una segunda escena/cámara, manten esta línea
+                if (this.transformationsRenderer) {
+                    this.transformationsRenderer.render(this.transformationsScene, this.transformationsCamera);
+                }
+            }
+        }
+
+
+    </script>
+
+    <script src="impact-calculator.js"></script>
+    <script src="script.js"></script>
+    <script src="Apinasa.js"></script>
+    <script src="impact-integration.js"></script>
+    <script>
+        const notas = document.querySelector('.notas p');
+
+        // Diccionario de mensajes por ID
+        const mensajes = {
+            "asteroid-select": "🌌 Here you can select the asteroid to analyze. The data will be automatically loaded from the API.",
+            "is_potentially_hazardous_asteroid": "⚠️ Indicates whether the asteroid poses a potential threat to Earth.",
+            "diameter": "📏 Shows the estimated diameter of the asteroid in meters. Controls its relative size.",
+            "semi_major": "🪐 Represents the average distance between the asteroid and the Sun, measured in astronomical units (AU).",
+            "excentricidad": "🔄 Defines how elliptical the orbit is. A value of 0 indicates a circular orbit.",
+            "inclinacion": "📈 The angle formed between the orbital plane and the reference plane (the ecliptic).",
+            "ascending_node_longitude": "🧭 Indicates the point where the asteroid crosses the reference plane toward the celestial north.",
+            "raan": "🛰️ RAAN (Right Ascension of the Ascending Node) measures the orientation of the orbit relative to the reference axis.",
+            "orbital_period": "⏳ The time it takes for the asteroid to complete one orbit around the Sun.",
+            "mean_motion": "⚙️ Mean motion: indicates how many degrees of its orbital path the asteroid travels per day.",
+            "perihelion_time": "🌞 The moment when the asteroid passes closest to the Sun (date in Julian days).",
+            "velocity": "🚀 Controls the asteroid’s relative velocity in the simulation, measured in km/s."
+        };
+
+        // Escuchar clics en todos los parameter-group
+        document.querySelectorAll('.parameter-group').forEach(group => {
+            group.addEventListener('click', () => {
+                const input = group.querySelector('select, input, range');
+                if (input && mensajes[input.id]) {
+                    notas.textContent = mensajes[input.id];
+                } else {
+                    notas.textContent = "ℹ️ Esta sección no tiene descripción definida.";
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
