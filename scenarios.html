@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simulador de Impacto de Asteroides</title>
+    <title>Asteroid Impact Simulator</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
     <link rel="stylesheet" href="scenario.css">
     
@@ -14,23 +14,23 @@
     <nav class="navbar">
         <div class="logo">
             <i class="fas fa-globe-americas"></i>
-            <h2 id="title">Proyecto Armageddon</h2>
+            <h2 id="title">Project Armageddon</h2>
         </div>
         <div class="nav-links">
             <a href="index.html" class="active">Home</a>
             <a href="scenarios.html">Scenarios & Defense</a>
-            <a href="mineria.html">Mineria</a>
-            <a href="Educativo.html">Eduacion</a>
+            <a href="mineria.html">Mining</a>
+            <a href="Educativo.html">Education</a>
         </div>
     </nav>
     <div class="container">
-        <h1>🌠 SIMULADOR DE IMPACTO DE ASTEROIDES 🌠</h1>
-        <p class="subtitle">Experimenta la devastación de un impacto cósmico en tiempo real</p>
+        <h1>🌠 ASTEROID IMPACT SIMULATOR 🌠</h1>
+        <p class="subtitle">Experience the devastation of a cosmic impact in real time</p>
 
         <div class="grid">
             <div class="left-panel">
                 <div class="card">
-                    <h2>⚙️ CONFIGURACIÓN</h2>
+                    <h2>⚙️ Configuration</h2>
                     <!--Seleccion de Asteroides-->
                     <div class="parameter-group">
                         <label for="asteroid-select">SELECT ASTEROIDS</label>
@@ -40,23 +40,23 @@
 
                     </div>
                     <div class="slider-group">
-                        <label>TIPO DE ASTEROIDE</label>
+                        <label>TYPE OF ASTEROID</label>
                         <div class="asteroid-types">
                             <button class="asteroid-btn active" data-type="iron">
                                 <span class="emoji">🪨</span>
-                                Hierro
+                                Iron
                             </button>
                             <button class="asteroid-btn" data-type="stone">
                                 <span class="emoji">🌑</span>
-                                Piedra
+                                Stone
                             </button>
                             <button class="asteroid-btn" data-type="carbon">
                                 <span class="emoji">⚫</span>
-                                Carbono
+                                Carbon
                             </button>
                             <button class="asteroid-btn" data-type="ice">
                                 <span class="emoji">❄️</span>
-                                Hielo
+                                Ice
                             </button>
                         </div>
                     </div>
@@ -78,7 +78,7 @@
                                     <span class="parameter-value"></span>
                                 </div>
                                 <div class="slider-group">
-                                    <label>Angle of impact <span id="angle-value">45</span> <span>grados</span></label>
+                                    <label>Angle of impact <span id="angle-value">45</span> <span>degrees</span></label>
                                     <input type="range" id="angle" min="0" max="90" value="45">
                                     <div class="slider-labels">
                                         <span>0° (rasante)</span>
@@ -93,14 +93,14 @@
 
 
                     <button class="launch-btn disabled" id="launch-btn">
-                        📍 Selecciona ubicación
+                        📍 Select location
                     </button>
                 </div>
             </div>
 
             <div class="right-panel">
                 <div class="card">
-                    <h2>🗺️ MAPA INTERACTIVO - HAZ CLIC PARA SELECCIONAR UBICACIÓN</h2>
+                    <h2>🗺️ INTERACTIVE MAP - CLICK TO SELECT LOCATION</h2>
                     <div id="map"></div>
                     <div id="location-status" class="location-status hidden"></div>
                     <div class="api-info">
@@ -112,52 +112,52 @@
                 <div class="card hidden" id="results-card">
                     <h2
                         style="text-align: center; background: linear-gradient(90deg, #dc2626, #ea580c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
-                        🔥 RESULTADOS DEL IMPACTO 🔥
+                        🔥 IMPACT RESULTS 🔥
                     </h2>
 
                     <div class="effects-nav" id="effects-nav"></div>
                     <div id="effect-display"></div>
 
                     <button class="reset-btn" id="reset-btn">
-                        🔄 LANZAR OTRO ASTEROIDE
+                        🔄 LAUNCH ANOTHER ASTEROID
                     </button>
                 </div>
 
                 <div class="card hidden" id="defense-card">
                     <h2
                         style="text-align: center; background: linear-gradient(90deg, #3b82f6, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
-                        🛡️ ESTRATEGIAS DE DEFENSA PLANETARIA 🛡️
+                        🛡️ PLANETARY DEFENSE STRATEGIES 🛡️
                     </h2>
-                    <p style="text-align: center; color: #94a3b8; margin-bottom: 20px;">El Arsenal de la Tierra</p>
+                    <p style="text-align: center; color: #94a3b8; margin-bottom: 20px;">The Arsenal of the Earth</p>
 
                     <div class="defense-grid">
                         <div class="defense-card" data-defense="kinetic">
                             <div class="defense-header">
                                 <div class="defense-icon">🚀</div>
                                 <div class="defense-title">
-                                    <h3>Impactador Cinético</h3>
-                                    <p>Enlace de Ntns./grro</p>
+                                    <h3>Kinetic Impactor</h3>
+                                    <p>Ntns./grro link</p>
                                 </div>
                             </div>
                             <div class="defense-description">
-                                Cómo Funciona: Colisión de alta velocidad para transferir momento.
+                                How It Works: High-speed collision to transfer momentum.
                             </div>
                             <div class="defense-controls">
                                 <div class="control-item">
-                                    <label>Masa de Impactador: <span class="value">500</span> kg</label>
+                                    <label>Impactor Mass: <span class="value">500</span> kg</label>
                                     <input type="range" class="defense-slider" data-param="kineticMass" min="100"
                                         max="2000" value="500">
                                 </div>
                                 <div class="control-item">
-                                    <label>Tiempo de Intervención: <span class="value">10</span> años</label>
+                                    <label>Intervention Time:<span class="value">10</span> years</label>
                                     <input type="range" class="defense-slider" data-param="kineticTime" min="5" max="20"
                                         value="10">
                                 </div>
                             </div>
                             <div class="defense-stats">
-                                <div class="stat-badge success">✓ Probado (Misión DART)</div>
-                                <div class="stat-badge danger">✗ Riesgo Fragmentación</div>
-                                <div class="stat-badge">⏱️ 5-20 años</div>
+                                <div class="stat-badge success">✓ Tested (DART Mission)</div>
+                                <div class="stat-badge danger">✗ Risk of Fragmentation</div>
+                                <div class="stat-badge">⏱️ 5-20 years</div>
                             </div>
                         </div>
 
@@ -165,30 +165,30 @@
                             <div class="defense-header">
                                 <div class="defense-icon">🛸</div>
                                 <div class="defense-title">
-                                    <h3>Tractor Gravitacional</h3>
-                                    <p>Enancte de Nina./grro</p>
+                                    <h3>Gravitational Tractor</h3>
+                                    <p>Nina's Enancte./grro</p>
                                 </div>
                             </div>
                             <div class="defense-description">
-                                Cómo Funciona: La gravedad de nave desvía lentamente el asteroide.
+                                How It Works: The ship's gravity slowly deflects the asteroid.
                             </div>
                             <div class="defense-controls">
                                 <div class="control-item">
-                                    <label>Masa de Nave: <span class="value">20000</span> kg</label>
+                                    <label>Ship Mass: <span class="value">20000</span> kg</label>
                                     <input type="range" class="defense-slider" data-param="gravMass" min="5000"
                                         max="50000" value="20000" step="1000">
                                 </div>
                                 <div class="control-item">
-                                    <label>Duración de Operación: <span class="value">15</span> años</label>
+                                    <label>Duration of Operation: <span class="value">15</span> years</label>
                                     <input type="range" class="defense-slider" data-param="gravDuration" min="10"
                                         max="25" value="15">
                                 </div>
                             </div>
                             <div class="defense-stats">
-                                <div class="stat-badge success">✓ Masa de Nave</div>
-                                <div class="stat-badge success">✓ Mística de "Vuelo"</div>
-                                <div class="stat-badge warning">✗ Extremadamente Lento</div>
-                                <div class="stat-badge">⏱️ 20-25 años</div>
+                                <div class="stat-badge success">✓ Ship Mass</div>
+                                <div class="stat-badge success">✓ Mystique of "Flight"</div>
+                                <div class="stat-badge warning">✗ Extremely Slow</div>
+                                <div class="stat-badge">⏱️ 20-25 years</div>
                             </div>
                         </div>
 
@@ -196,35 +196,35 @@
                             <div class="defense-header">
                                 <div class="defense-icon">🔴</div>
                                 <div class="defense-title">
-                                    <h3>Láser de Ablación</h3>
-                                    <p>(Distanciado)</p>
+                                    <h3>Ablation Laser</h3>
+                                    <p>(Distanced)</p>
                                 </div>
                             </div>
                             <div class="defense-description">
-                                Cómo Funciona: Rayo láser vaporiza superficie creando un 'cohete'.
+                                How It Works: Laser beam vaporizes surface creating a 'rocket'.
                             </div>
                             <div class="defense-controls">
                                 <div class="control-item">
-                                    <label>Potencia del Láser: <span class="value">5</span> MW</label>
+                                    <label>Laser Power: <span class="value">5</span> MW</label>
                                     <input type="range" class="defense-slider" data-param="laserPower" min="1" max="10"
                                         value="5">
                                 </div>
                                 <div class="control-item">
-                                    <label>Distancia de "Vuelo": <span class="value">15</span> años</label>
+                                    <label>"Flight" Distance: <span class="value">15</span> years</label>
                                     <input type="range" class="defense-slider" data-param="laserDistance" min="10"
                                         max="20" value="15">
                                 </div>
                                 <div class="control-item">
-                                    <label>Duración de Misión: <span class="value">3</span> años</label>
+                                    <label>Mission Duration:<span class="value">3</span> years</label>
                                     <input type="range" class="defense-slider" data-param="laserDuration" min="1"
                                         max="5" value="3">
                                 </div>
                             </div>
                             <div class="defense-stats">
-                                <div class="stat-badge success">✓ Ajuste del Laser</div>
-                                <div class="stat-badge warning">✗ Sin Contacto</div>
-                                <div class="stat-badge warning">✗ Tecnología Experimental</div>
-                                <div class="stat-badge">⏱️ 10-20 años</div>
+                                <div class="stat-badge success">✓ Laser Adjustment</div>
+                                <div class="stat-badge warning">✗ No Contact</div>
+                                <div class="stat-badge warning">✗ Experimental Technology</div>
+                                <div class="stat-badge">⏱️ 10-20 years</div>
                             </div>
                         </div>
 
@@ -232,59 +232,58 @@
                             <div class="defense-header">
                                 <div class="defense-icon">💥</div>
                                 <div class="defense-title">
-                                    <h3>Explosión Nuclear</h3>
-                                    <p>(Distanciado)</p>
+                                    <h3>Nuclear Explosion</h3>
+                                    <p>(Distanced)</p>
                                 </div>
                             </div>
                             <div class="defense-description">
-                                Cómo Funciona: Detonación cercana que empuja asteroide creando radiación.
+                                How It Works: Nearby detonation pushes asteroid creating radiation.
                             </div>
                             <div class="defense-controls">
                                 <div class="control-item">
-                                    <label>Potencia de Dispositivo: <span class="value">1000</span> kilotones</label>
+                                    <label>Device Power: <span class="value">1000</span>kilotons</label>
                                     <input type="range" class="defense-slider" data-param="nuclearPower" min="100"
                                         max="5000" value="1000" step="100">
                                 </div>
                                 <div class="control-item">
-                                    <label>Tecnología de Misil: <span class="value">3</span> años</label>
+                                    <label>Missile Technology: <span class="value">3</span> years</label>
                                     <input type="range" class="defense-slider" data-param="nuclearTech" min="1" max="5"
                                         value="3">
                                 </div>
                                 <div class="control-item">
-                                    <label>Distancia de Detonación: <span class="value">500</span> metros</label>
+                                    <label>Detonation Distance: <span class="value">500</span> meters</label>
                                     <input type="range" class="defense-slider" data-param="nuclearDistance" min="100"
                                         max="1000" value="500" step="50">
                                 </div>
                             </div>
                             <div class="defense-stats">
-                                <div class="stat-badge success">✓ Inmensa Potencia</div>
-                                <div class="stat-badge danger">✗ Alto Riesgo, Controversial</div>
-                                <div class="stat-badge danger">✗ Difícil Controversial</div>
-                                <div class="stat-badge">⏱️ < 5 años</div>
+                                <div class="stat-badge success">✓ Immense Power</div>
+                                <div class="stat-badge danger">✗ High Risk, Controversial</div>
+                                <div class="stat-badge danger">✗ Difficult Controversial</div>
+                                <div class="stat-badge">⏱️ < 5 years</div>
                                 </div>
                             </div>
                         </div>
 
                         <button class="simulate-defense-btn" id="simulate-defense-btn" disabled>
-                            🛡️ EJECUTAR SIMULACIÓN DE DEFENSA
+                            🛡️ RUN DEFENSE SIMULATION
                         </button>
 
                         <div id="simulation-result" class="simulation-result hidden"></div>
 
                         <div class="api-info" style="margin-top: 15px;">
-                            🔬 <strong>Cálculos:</strong> Física de impactos basada en modelos científicos | 🚀
-                            <strong>Datos de Defensa:</strong> NASA & ESA
+                            🔬 <strong>Calculations:</strong> Impact physics based on scientific models | 🚀
+                            <strong>Defense Data:</strong> NASA & ESA
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="footer">
-                <p>⚠️ Este simulador utiliza APIs libres y gratuitas:</p>
-                <p>🗺️ <strong>Leaflet.js</strong> (Open Source) + <strong>OpenStreetMap</strong> (Datos libres de la
-                    comunidad)</p>
-                <p>📊 Los cálculos se basan en la energía cinética, masa, velocidad y composición del asteroide</p>
-                <p>🔓 Código 100% JavaScript vanilla - Sin dependencias comerciales</p>
+                <p>⚠️ This simulator uses free and open source APIs:</p>
+                <p>🗺️ <strong>Leaflet.js</strong> (Open Source) + <strong>OpenStreetMap</strong> (Free data from the community)</p>
+                <p>📊 Calculations are based on the kinetic energy, mass, velocity and composition of the asteroid.</p>
+                <p>🔓 100% vanilla JavaScript code - No commercial dependencies</p>
             </div>
         </div>
 
@@ -371,7 +370,7 @@
 
                 document.getElementById('launch-btn').classList.remove('disabled');
                 document.getElementById('launch-btn').classList.add('active');
-                document.getElementById('launch-btn').textContent = '🚀 LANZAR ASTEROIDE';
+                document.getElementById('launch-btn').textContent = '🚀 LAUNCH ASTEROID';
 
                 document.getElementById('results-card').classList.add('hidden');
                 document.getElementById('defense-card').classList.add('hidden');
@@ -379,7 +378,7 @@
 
             function calculateImpact() {
                 if (!state.impactLocation) {
-                    alert('Por favor, selecciona una ubicación de impacto en el mapa');
+                    alert('Please select an impact location on the map');
                     return;
                 }
 
@@ -451,11 +450,11 @@
                 circles = [];
 
                 const effects = [
-                    { radius: state.results.crater.diameter, color: '#8B4513', label: 'Cráter' },
-                    { radius: state.results.fireball.radius, color: '#FF4500', label: 'Bola de Fuego' },
-                    { radius: state.results.shockwave.radius, color: '#4169E1', label: 'Onda de Choque' },
-                    { radius: state.results.wind.radius, color: '#DC143C', label: 'Vientos' },
-                    { radius: state.results.seismic.radius, color: '#FF8C00', label: 'Terremoto' }
+                    { radius: state.results.crater.diameter, color: '#8B4513', label: 'Crater' },
+                    { radius: state.results.fireball.radius, color: '#FF4500', label: 'Fireball' },
+                    { radius: state.results.shockwave.radius, color: '#4169E1', label: 'Shock wave' },
+                    { radius: state.results.wind.radius, color: '#DC143C', label: 'Winds' },
+                    { radius: state.results.seismic.radius, color: '#FF8C00', label: 'Earthquake' }
                 ];
 
                 effects.forEach(effect => {
@@ -475,67 +474,67 @@
 
                 const effectsData = [
                     {
-                        title: `${state.results.crater.diameter.toFixed(0)} KM DE DIAMETRO`,
+                        title: `${state.results.crater.diameter.toFixed(0)} KM IN DIAMETER`,
                         subtitle: 'CRATER',
                         icon: '⛰️',
                         color: 'linear-gradient(135deg, #92400e, #b45309)',
                         stats: [
-                            `💀 ${state.results.crater.deaths.toLocaleString()} personas vaporizadas en el cráter`,
-                            `⛰️ El cráter tiene ${state.results.crater.depth.toFixed(0)} m de profundidad`,
-                            `⚡ Tu asteroide impactó el suelo a ${state.velocity} km/s`,
-                            `⚠️ La energía equivale a ${state.results.energy.toFixed(1)} megatones de TNT`,
-                            `📻 Un impacto así ocurre cada ${state.results.frequency.toLocaleString()} años`
+                            `💀 ${state.results.crater.deaths.toLocaleString()} people vaporized in the crater`,
+                            `⛰️ The crater has ${state.results.crater.depth.toFixed(0)} meters deep`,
+                            `⚡ Your asteroid hit the ground a ${state.velocity} km/s`,
+                            `⚠️ Energy is equivalent to ${state.results.energy.toFixed(1)} megatons of TNT`,
+                            `📻 An impact like this happens every ${state.results.frequency.toLocaleString()} years`
                         ]
                     },
                     {
-                        title: `${state.results.fireball.radius.toFixed(0)} KM DE DIAMETRO`,
-                        subtitle: 'BOLA DE FUEGO',
+                        title: `${state.results.fireball.radius.toFixed(0)} KM IN DIAMETER`,
+                        subtitle: 'FIREBALL',
                         icon: '🔥',
                         color: 'linear-gradient(135deg, #ca8a04, #ea580c)',
                         stats: [
-                            `💀 ${state.results.fireball.deaths.toLocaleString()} personas morirían por la bola de fuego`,
-                            `🔥 ${state.results.fireball.burns1st.toLocaleString()} personas recibirían quemaduras de 1er grado`,
-                            `🔥 ${state.results.fireball.burns2nd.toLocaleString()} personas recibirían quemaduras de 2do grado`,
-                            `🔥 La ropa se incendiaría dentro de ${state.results.fireball.ignitionClothes.toFixed(0)} km`,
-                            `🔥 Los árboles se incendiarían dentro de ${state.results.fireball.ignitionTrees.toFixed(0)} km`
+                            `💀 ${state.results.fireball.deaths.toLocaleString()} people would die from the fireball`,
+                            `🔥 ${state.results.fireball.burns1st.toLocaleString()} people would receive first-degree burns`,
+                            `🔥 ${state.results.fireball.burns2nd.toLocaleString()} people would receive second-degree burns`,
+                            `🔥 The clothes would catch fire inside ${state.results.fireball.ignitionClothes.toFixed(0)} km`,
+                            `🔥 The trees would burn inside ${state.results.fireball.ignitionTrees.toFixed(0)} km`
                         ]
                     },
                     {
-                        title: `${state.results.shockwave.overpressure} DECIBELES`,
-                        subtitle: 'ONDA DE CHOQUE',
+                        title: `${state.results.shockwave.overpressure} Decibels`,
+                        subtitle: 'SHOCK WAVE',
                         icon: '📻',
                         color: 'linear-gradient(135deg, #2563eb, #1e40af)',
                         stats: [
-                            `💀 ${state.results.shockwave.deaths.toLocaleString()} personas morirían por la onda de choque`,
-                            `⚠️ Cualquiera dentro de ${state.results.shockwave.lungDamage.toFixed(0)} km recibiría daño pulmonar`,
-                            `📻 Cualquiera dentro de ${state.results.shockwave.eardrumRupture.toFixed(0)} km tendría tímpanos rotos`,
-                            `🏠 Edificios dentro de ${state.results.shockwave.buildingCollapse.toFixed(0)} km colapsarían`,
-                            `🏠 Casas dentro de ${state.results.shockwave.homeCollapse.toFixed(0)} km colapsarían`
+                            `💀 ${state.results.shockwave.deaths.toLocaleString()} people would die from the shock wave`,
+                            `⚠️ Anyone within ${state.results.shockwave.lungDamage.toFixed(0)} km would receive lung damage`,
+                            `📻 Anyone within ${state.results.shockwave.eardrumRupture.toFixed(0)} km would have ruptured eardrums`,
+                            `🏠 Buildings within  ${state.results.shockwave.buildingCollapse.toFixed(0)} km would collapse`,
+                            `🏠 Houses within ${state.results.shockwave.homeCollapse.toFixed(0)} km would collapse`
                         ]
                     },
                     {
-                        title: `${state.results.wind.speed.toFixed(1)} M/S DE VELOCIDAD PICO`,
-                        subtitle: 'VIENTOS',
+                        title: `${state.results.wind.speed.toFixed(1)} M/S PEAK SPEED`,
+                        subtitle: 'WINDS',
                         icon: '💨',
                         color: 'linear-gradient(135deg, #dc2626, #b91c1c)',
                         stats: [
-                            `💀 ${state.results.wind.deaths.toLocaleString()} personas morirían por el viento`,
-                            `💨 Los vientos serían ${(state.results.wind.speed / 340).toFixed(1)}x más rápidos que las tormentas de Júpiter`,
-                            `🏠 Casas dentro de ${state.results.wind.homesLeveled.toFixed(0)} km serían arrasadas`,
-                            `⛰️ Dentro de ${state.results.wind.treesDown.toFixed(0)} km se sentiría como estar dentro de un tornado EF5`,
-                            `⚠️ Casi todos los árboles dentro de ${state.results.wind.treesDown.toFixed(0)} km serían derribados`
+                            `💀 ${state.results.wind.deaths.toLocaleString()} people would die from the wind`,
+                            `💨 The winds would be ${(state.results.wind.speed / 340).toFixed(1)}x faster than Jupiter's storms`,
+                            `🏠 Houses within ${state.results.wind.homesLeveled.toFixed(0)} km would be razed`,
+                            `⛰️ Within ${state.results.wind.treesDown.toFixed(0)} km It would feel like being inside an EF5 tornado.`,
+                            `⚠️ Almost all the trees within ${state.results.wind.treesDown.toFixed(0)} km would be demolished`
                         ]
                     },
                     {
-                        title: `MAGNITUD ${state.results.seismic.magnitude.toFixed(1)}`,
-                        subtitle: 'TERREMOTO',
+                        title: `MAGNITUDE ${state.results.seismic.magnitude.toFixed(1)}`,
+                        subtitle: 'EARTHQUAKE',
                         icon: '🌋',
                         color: 'linear-gradient(135deg, #ea580c, #dc2626)',
                         stats: [
-                            `💀 ${state.results.seismic.deaths.toLocaleString()} personas morirían por el terremoto`,
-                            `📻 El terremoto se sentiría a ${state.results.seismic.feltDistance.toFixed(0)} km de distancia`,
-                            `⛰️ Un terremoto de esta magnitud ocurre aproximadamente cada ${(state.results.frequency / 100).toFixed(0)} años`,
-                            `⚠️ La sacudida causaría daños estructurales masivos en un radio amplio`
+                            `💀 ${state.results.seismic.deaths.toLocaleString()} people would die from the earthquake`,
+                            `📻 The earthquake would be felt at ${state.results.seismic.feltDistance.toFixed(0)} km away`,
+                            `⛰️ An earthquake of this magnitude occurs approximately every${(state.results.frequency / 100).toFixed(0)} years`,
+                            `⚠️ The shock would cause massive structural damage in a wide radius.`
                         ]
                     }
                 ];
@@ -635,7 +634,7 @@
                 document.getElementById('location-status').classList.add('hidden');
                 document.getElementById('launch-btn').classList.remove('active');
                 document.getElementById('launch-btn').classList.add('disabled');
-                document.getElementById('launch-btn').textContent = '📍 Selecciona ubicación';
+                document.getElementById('launch-btn').textContent = '📍 Select location';
 
                 document.querySelectorAll('.defense-card').forEach(card => {
                     card.classList.remove('selected');
@@ -686,22 +685,22 @@
                         success = kineticEfficiency > kineticThreshold && params.kineticTime >= 5;
 
                         if (success) {
-                            resultText = '¡MISIÓN EXITOSA! El impactador cinético ha desviado el asteroide con éxito.';
+                            resultText = 'MISSION SUCCESSFUL! The kinetic impactor has successfully deflected the asteroid.';
                             details = [
-                                `✓ El impacto transfirió ${(params.kineticMass * 17).toLocaleString()} kg·km/s de momento`,
-                                `✓ La trayectoria del asteroide se desvió ${(0.01 * kineticEfficiency).toFixed(4)}° de su curso original`,
-                                `✓ El asteroide pasará a ${(30000 * kineticEfficiency).toFixed(0)} km de la Tierra`,
-                                `✓ Tiempo de preparación utilizado: ${params.kineticTime} años`,
-                                `✓ Fragmentación mínima detectada - amenaza neutralizada`
+                                `✓ The impact transferred ${(params.kineticMass * 17).toLocaleString()} kg·km/s for now`,
+                                `✓ The asteroid's trajectory has now deviated ${(0.01 * kineticEfficiency).toFixed(4)}° from its original course`,
+                                `✓ The asteroid will pass by ${(30000 * kineticEfficiency).toFixed(0)} km from Earth`,
+                                `✓ Preparation time used: ${params.kineticTime} years`,
+                                `✓ Minimal fragmentation detected - threat neutralized`
                             ];
                         } else {
-                            resultText = '❌ MISIÓN FALLIDA. El impactador no generó suficiente desviación.';
+                            resultText = '❌ MISSION FAILED. The impactor did not generate sufficient deflection.';
                             details = [
-                                `✗ Momento transferido insuficiente: ${(params.kineticMass * 17).toLocaleString()} kg·km/s`,
-                                `✗ Desviación lograda: solo ${(0.005 * kineticEfficiency).toFixed(4)}°`,
-                                `✗ El asteroide impactará en ${detectionTime - params.kineticTime} años`,
-                                `⚠️ Se requiere mayor masa del impactador o más tiempo de intervención`,
-                                `⚠️ Riesgo de fragmentación peligrosa del asteroide`
+                                `✗ Insufficient transferred moment: ${(params.kineticMass * 17).toLocaleString()} kg·km/s`,
+                                `✗ Deviation achieved: only ${(0.005 * kineticEfficiency).toFixed(4)}°`,
+                                `✗ The asteroid will impact in ${detectionTime - params.kineticTime} years`,
+                                `⚠️ Greater impactor mass or longer intervention time is required`,
+                                `⚠️ Risk of dangerous asteroid fragmentation`
                             ];
                         }
                         break;
@@ -712,22 +711,22 @@
                         success = gravEfficiency > gravThreshold && params.gravDuration >= 15;
 
                         if (success) {
-                            resultText = '¡MISIÓN EXITOSA! El tractor gravitacional ha modificado la órbita del asteroide.';
+                            resultText = 'MISSION SUCCESSFUL! The gravitational tractor has modified the asteroid is orbit.';
                             details = [
-                                `✓ Operación continua durante ${params.gravDuration} años`,
-                                `✓ Fuerza gravitacional acumulada: ${(params.gravMass * 0.0001).toFixed(6)} N`,
-                                `✓ Desviación orbital total: ${(0.02 * gravEfficiency).toFixed(5)}°`,
-                                `✓ Distancia de paso seguro: ${(50000 * gravEfficiency).toFixed(0)} km`,
-                                `✓ Método más seguro - cero riesgo de fragmentación`
+                                `✓ Continuous operation during ${params.gravDuration} years`,
+                                `✓ Accumulated gravitational force: ${(params.gravMass * 0.0001).toFixed(6)} N`,
+                                `✓ Total orbital deviation: ${(0.02 * gravEfficiency).toFixed(5)}°`,
+                                `✓ Safe walking distance: ${(50000 * gravEfficiency).toFixed(0)} km`,
+                                `✓ Safer method - zero risk of fragmentation`
                             ];
                         } else {
-                            resultText = '❌ MISIÓN FALLIDA. Tiempo insuficiente para desviación efectiva.';
+                            resultText = '❌ MISSION FAILED. Insufficient time for effective fun.';
                             details = [
-                                `✗ Duración de misión insuficiente: ${params.gravDuration} años`,
-                                `✗ Masa de nave inadecuada: ${params.gravMass.toLocaleString()} kg`,
-                                `✗ Desviación lograda: solo ${(0.008 * gravEfficiency).toFixed(5)}°`,
-                                `⚠️ Se requieren al menos ${Math.ceil(gravThreshold * 15)} años de operación`,
-                                `⚠️ Este método funciona mejor con asteroides pequeños`
+                                `✗ Insufficient mission duration: ${params.gravDuration} years`,
+                                `✗ Inadequate ship mass: ${params.gravMass.toLocaleString()} kg`,
+                                `✗ Deviation achieved: only ${(0.008 * gravEfficiency).toFixed(5)}°`,
+                                `⚠️ At least are required ${Math.ceil(gravThreshold * 15)} years of operation`,
+                                `⚠️ This method works best with small asteroids.`
                             ];
                         }
                         break;
@@ -738,22 +737,22 @@
                         success = laserEfficiency > laserThreshold && params.laserDistance >= 12;
 
                         if (success) {
-                            resultText = '¡MISIÓN EXITOSA! El láser de ablación ha creado un efecto cohete efectivo.';
+                            resultText = 'MISSION SUCCESSFUL! The ablation laser has created an effective rocket effect.';
                             details = [
-                                `✓ Potencia del láser: ${params.laserPower} MW durante ${params.laserDuration} años`,
-                                `✓ Material vaporizado: ${(params.laserPower * params.laserDuration * 1000).toLocaleString()} kg`,
-                                `✓ Empuje generado: ${(params.laserPower * 0.5).toFixed(2)} N continuos`,
-                                `✓ Desviación acumulada: ${(0.015 * laserEfficiency).toFixed(4)}°`,
-                                `✓ Control preciso de trayectoria - sin fragmentación`
+                                `✓ Laser power: ${params.laserPower} MW during ${params.laserDuration} years`,
+                                `✓ Vaporized material: ${(params.laserPower * params.laserDuration * 1000).toLocaleString()} kg`,
+                                `✓ Thrust generated: ${(params.laserPower * 0.5).toFixed(2)} N continuous`,
+                                `✓ Cumulative deviation: ${(0.015 * laserEfficiency).toFixed(4)}°`,
+                                `✓ Precise trajectory control - without fragmentation`
                             ];
                         } else {
-                            resultText = '❌ MISIÓN FALLIDA. La ablación láser fue insuficiente.';
+                            resultText = '❌ MISSION FAILED. Laser ablation was insufficient.';
                             details = [
-                                `✗ Potencia láser inadecuada: ${params.laserPower} MW`,
-                                `✗ Tiempo de aplicación muy corto: ${params.laserDuration} años`,
-                                `✗ Material vaporizado: solo ${(params.laserPower * params.laserDuration * 1000).toLocaleString()} kg`,
-                                `⚠️ Se requiere mayor potencia o duración de misión`,
-                                `⚠️ Tecnología aún experimental - alto riesgo técnico`
+                                `✗ Inadequate laser power:${params.laserPower} MW`,
+                                `✗ Very short application time:${params.laserDuration} years`,
+                                `✗ Vaporized material: only ${(params.laserPower * params.laserDuration * 1000).toLocaleString()} kg`,
+                                `⚠️ Greater power or mission duration is required`,
+                                `⚠️ Technology still experimental - high technical risk`
                             ];
                         }
                         break;
@@ -764,22 +763,22 @@
                         success = nuclearEfficiency > nuclearThreshold && params.nuclearDistance <= 600 && params.nuclearTech <= 3;
 
                         if (success) {
-                            resultText = '¡MISIÓN EXITOSA! La detonación nuclear ha desviado el asteroide crítico.';
+                            resultText = 'MISSION SUCCESSFUL! The nuclear detonation has deflected the critical asteroid.';
                             details = [
-                                `✓ Detonación de ${params.nuclearPower.toLocaleString()} kilotones a ${params.nuclearDistance}m`,
-                                `✓ Energía radiante transferida: ${(params.nuclearPower * 0.3).toFixed(0)} kilotones`,
-                                `✓ Impulso generado: ${(nuclearEfficiency * 10000).toFixed(0)} N·s`,
-                                `✓ Desviación inmediata: ${(0.05 * nuclearEfficiency).toFixed(3)}°`,
-                                `✓ Método de última instancia - AMENAZA NEUTRALIZADA`
+                                `✓ Detonation of ${params.nuclearPower.toLocaleString()} kilotons a ${params.nuclearDistance}m`,
+                                `✓ Radiant energy transferred: ${(params.nuclearPower * 0.3).toFixed(0)} kilotons`,
+                                `✓ Momentum generated: ${(nuclearEfficiency * 10000).toFixed(0)} N·s`,
+                                `✓ Immediate diversion: ${(0.05 * nuclearEfficiency).toFixed(3)}°`,
+                                `✓ Method of last resort - THREAT NEUTRALIZED`
                             ];
                         } else {
-                            resultText = '❌ MISIÓN FALLIDA. La detonación causó fragmentación peligrosa.';
+                            resultText = '❌ MISSION FAILED. The detonation caused dangerous fragmentation.';
                             details = [
-                                `✗ Detonación demasiado potente o cercana`,
-                                `✗ Asteroide fragmentado en ${Math.floor(Math.random() * 50 + 20)} piezas`,
-                                `✗ Múltiples fragmentos siguen rumbo de colisión`,
-                                `⚠️ La fragmentación empeoró la amenaza original`,
-                                `⚠️ Se detectan ${Math.floor(Math.random() * 10 + 5)} fragmentos peligrosos`
+                                `✗ Detonation too powerful or close`,
+                                `✗ Asteroid fragmented into${Math.floor(Math.random() * 50 + 20)} parts`,
+                                `✗ Multiple fragments continue on a collision course`,
+                                `⚠️ Fragmentation worsened the original threat`,
+                                `⚠️ They are detected ${Math.floor(Math.random() * 10 + 5)} dangerous fragments`
                             ];
                         }
                         break;
@@ -788,20 +787,20 @@
                 const resultDiv = document.getElementById('simulation-result');
                 resultDiv.className = 'simulation-result ' + (success ? 'success' : 'failure');
                 resultDiv.innerHTML = `
-                <h3>${success ? '✅' : '❌'} RESULTADO DE LA SIMULACIÓN</h3>
+                <h3>${success ? '✅' : '❌'} SIMULATION RESULT</h3>
                 <p style="font-size: 1.1rem; margin-bottom: 15px;"><strong>${resultText}</strong></p>
                 <ul>
                     ${details.map(detail => `<li>${detail}</li>`).join('')}
                 </ul>
                 <div class="time-badge">
-                    ⏱️ Tiempo total de misión: ${params[defenseType + 'Time'] || params[defenseType + 'Duration'] || params[defenseType + 'Tech']} años
+                    ⏱️ Total mission time: ${params[defenseType + 'Time'] || params[defenseType + 'Duration'] || params[defenseType + 'Tech']} years
                 </div>
                 <div style="margin-top: 15px; padding: 15px; background: rgba(0,0,0,0.3); border-radius: 8px;">
-                    <strong>📊 Análisis del Asteroide:</strong><br>
-                    • Energía de impacto: ${asteroid.energy.toFixed(1)} megatones<br>
-                    • Diámetro: ${state.diameter} metros<br>
-                    • Velocidad: ${state.velocity} km/s<br>
-                    • Composición: ${asteroidTypes[state.type].name}
+                    <strong>📊 Asteroid Analysis:</strong><br>
+                    • Impact energy: ${asteroid.energy.toFixed(1)} megatons:<br>
+                    • Diameter: ${state.diameter} metros<br>
+                    • Speed: ${state.velocity} km/s<br>
+                    • Composition: ${asteroidTypes[state.type].name}
                 </div>
             `;
                 resultDiv.classList.remove('hidden');
